@@ -1,19 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
     [Header("Jump variables")]
     [SerializeField] private float jumpForce;
     [SerializeField] private float jumpDelay;
+
     [Header("Dash variables")]
     [SerializeField] private float dashDelay;
     [SerializeField] private float dashSpeed;
     [SerializeField] private float dashLenght;
     [SerializeField] private float dashCooldown;
+
     [Header("movement speed")]
     [SerializeField] private float moveSpeed;
+
+    [Header("color scriptable object")]
+    [SerializeField] private LevelColors levelColors;
+
+    [Header("time until player dies")]
+    [SerializeField] private float timeTillDeath;
+
 
     private Rigidbody2D playerRigidbody;
     private float timeBetweenTaps = 0.2f;
@@ -21,19 +31,25 @@ public class PlayerController : MonoBehaviour
     private float activeMovespeed;
     private float dashCounter;
     private float dashCoolCounter;
+    private SpriteRenderer spriteRenderer;
+    private float timeTillDeathLocal;
 
 
 
     void Start()
     {
         playerRigidbody = this.GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         activeMovespeed = moveSpeed;
+        ChangeColor();
     }
 
     void Update()
     {
         playerRigidbody.velocity = new Vector2(activeMovespeed, playerRigidbody.velocity.y);
         FallingSpeedHandler();
+        RotationReset();
+        DeathTimer();
         if(Input.GetKeyDown("space")){
             JumpOrDashHandler();
         }
@@ -53,6 +69,12 @@ public class PlayerController : MonoBehaviour
         }
         else{
             return true;
+        }
+    }
+
+    private void RotationReset(){
+        if(this.transform.rotation.z != 0){
+            this.transform.rotation = Quaternion.identity;
         }
     }
 
@@ -90,6 +112,7 @@ public class PlayerController : MonoBehaviour
                 activeMovespeed = moveSpeed;
                 dashCoolCounter = dashCooldown;
                 playerRigidbody.constraints = RigidbodyConstraints2D.None;
+                playerRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
             }
         }
 
@@ -111,6 +134,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(jumpDelay);
         if(GroundedCheck()){
         playerRigidbody.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
+        ChangeColor();
         }
     }
 
@@ -118,6 +142,24 @@ public class PlayerController : MonoBehaviour
         if(dashCoolCounter <= 0 && dashCounter <= 0){
             activeMovespeed = dashSpeed;
             dashCounter = dashLenght;
+            ChangeColor();
+        }
+    }
+
+    private void ChangeColor(){
+        spriteRenderer.color = levelColors.colors[Random.Range(0, levelColors.colors.Length)];
+    }
+
+    private void DeathTimer(){
+        if(!GroundedCheck() && timeTillDeathLocal > 0){
+            timeTillDeathLocal -= Time.deltaTime;
+        }
+        else{
+            timeTillDeathLocal = timeTillDeath;
+        }
+
+        if(timeTillDeathLocal <= 0){
+            SceneManager.LoadScene("Main Game");
         }
     }
 }

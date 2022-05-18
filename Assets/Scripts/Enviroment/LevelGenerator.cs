@@ -5,7 +5,6 @@ using UnityEngine.Tilemaps;
 
 public class LevelGenerator : MonoBehaviour
 {
-    [SerializeField] private GameObject levelPart;
     [SerializeField] private LevelSpawningParams levelSpawningParams;
 
     private Vector3 platformEnd;
@@ -34,6 +33,7 @@ public class LevelGenerator : MonoBehaviour
     }
 
     private void SpawnNewLevelPart(){
+        // Debug.Log("spawned new part");
         hasSpawnedPart = true;
         Instantiate(levelSpawningParams.levelparts[Random.Range(0, levelSpawningParams.levelparts.Length)], PlatformSpawnPoint(), Quaternion.identity, levelParent);
     }

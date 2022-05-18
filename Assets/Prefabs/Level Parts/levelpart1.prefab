@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: -3542013718412118968}
   m_Layer: 0
   m_Name: levelpart1
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -30,7 +30,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4316271022725449071}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -50,7 +50,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 0
-      m_TileSpriteIndex: 0
+      m_TileSpriteIndex: 2
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -69,8 +69,28 @@ Tilemap:
   - first: {x: 2, y: -1, z: 0}
     second:
       serializedVersion: 2
+      m_TileIndex: 1
+      m_TileSpriteIndex: 1
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741825
+  - first: {x: 3, y: -1, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 1
+      m_TileSpriteIndex: 1
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741825
+  - first: {x: 4, y: -1, z: 0}
+    second:
+      serializedVersion: 2
       m_TileIndex: 2
-      m_TileSpriteIndex: 2
+      m_TileSpriteIndex: 0
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -80,19 +100,19 @@ Tilemap:
   m_TileAssetArray:
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 20f8e6c83a0c1964d9fdc57c0391fcb3, type: 2}
-  - m_RefCount: 1
+  - m_RefCount: 3
     m_Data: {fileID: 11400000, guid: fbf34c3d4bfa7ec40854d7a6fd3faa11, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: e16dcebea68ab984580e48c3dc4613ff, type: 2}
   m_TileSpriteArray:
   - m_RefCount: 1
-    m_Data: {fileID: -7133491071943686332, guid: dc21c6d1dedfae048af3cac7b120c2af, type: 3}
-  - m_RefCount: 1
+    m_Data: {fileID: 5959359267886011435, guid: dc21c6d1dedfae048af3cac7b120c2af, type: 3}
+  - m_RefCount: 3
     m_Data: {fileID: -3422332610278599042, guid: dc21c6d1dedfae048af3cac7b120c2af, type: 3}
   - m_RefCount: 1
-    m_Data: {fileID: 5959359267886011435, guid: dc21c6d1dedfae048af3cac7b120c2af, type: 3}
+    m_Data: {fileID: -7133491071943686332, guid: dc21c6d1dedfae048af3cac7b120c2af, type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 3
+  - m_RefCount: 5
     m_Data:
       e00: 1
       e01: 0
@@ -111,13 +131,13 @@ Tilemap:
       e32: 0
       e33: 1
   m_TileColorArray:
-  - m_RefCount: 3
+  - m_RefCount: 5
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Origin: {x: 0, y: -1, z: 0}
-  m_Size: {x: 3, y: 1, z: 1}
+  m_Size: {x: 5, y: 1, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
@@ -174,8 +194,8 @@ TilemapRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1761035547
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -244,16 +264,16 @@ CompositeCollider2D:
     m_ColliderPaths:
     - - X: 0
         Y: -10000000
-      - X: 30000000
+      - X: 50000000
         Y: -10000000
-      - X: 30000000
+      - X: 50000000
         Y: 0
       - X: 0
         Y: 0
   m_CompositePaths:
     m_Paths:
-    - - {x: 2.999971, y: -1}
-      - {x: 2.999971, y: 0}
+    - - {x: 4.999971, y: -1}
+      - {x: 4.999971, y: 0}
       - {x: 0, y: -0.000029300001}
       - {x: 0.000029300001, y: -1}
   m_VertexDistance: 0.0005
@@ -270,7 +290,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 637eb8dcbfa54e8489b64164efdd31a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelPart: {fileID: 0}
   levelSpawningParams: {fileID: 11400000, guid: 07b33f666cabae34eacc5575ace604e2, type: 2}
 --- !u!114 &-3542013718412118968
 MonoBehaviour:

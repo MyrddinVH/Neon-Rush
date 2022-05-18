@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 181b168c1c6452a41adf70b92c805a6c, type: 3}
   m_Name: level spawning params
   m_EditorClassIdentifier: 
-  minSpawningDistance: 1
-  maxSpawningDistance: 6
+  minSpawningDistance: 2
+  maxSpawningDistance: 8
   minSpawningHeight: -5
   maxSpawningHeight: 2
   levelparts:
@@ -24,4 +24,3 @@ MonoBehaviour:
   - {fileID: 2154450763469733442, guid: 4331990e12edf7142a717ddbe1c9ebaf, type: 3}
   - {fileID: 8207950329421959042, guid: b6e554e6a71f75546892c57097f867f8, type: 3}
   - {fileID: 1807442206220478441, guid: f841d33c6ee08564baf8526a4688870f, type: 3}
-  deathZone: {fileID: 1990201212788713960, guid: f7ac5e0d95445ba469d7f758ca03014d, type: 3}

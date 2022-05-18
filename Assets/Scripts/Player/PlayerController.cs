@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float dashSpeed;
     [SerializeField] private float dashLenght;
     [SerializeField] private float dashCooldown;
+    [SerializeField] private GameObject dashSprite;
 
     [Header("movement speed")]
     [SerializeField] private float moveSpeed;
@@ -24,6 +25,11 @@ public class PlayerController : MonoBehaviour
     [Header("time until player dies")]
     [SerializeField] private float timeTillDeath;
 
+    [Header("audio")]
+    [SerializeField] private AudioClip jump;
+    [SerializeField] private AudioClip dash;
+
+
 
     private Rigidbody2D playerRigidbody;
     private float timeBetweenTaps = 0.2f;
@@ -33,12 +39,16 @@ public class PlayerController : MonoBehaviour
     private float dashCoolCounter;
     private SpriteRenderer spriteRenderer;
     private float timeTillDeathLocal;
+    private AudioSource audioSource;
+    public bool canDash;
+
 
 
 
     void Start()
     {
         playerRigidbody = this.GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         activeMovespeed = moveSpeed;
         ChangeColor();
@@ -68,6 +78,8 @@ public class PlayerController : MonoBehaviour
             return false;
         }
         else{
+            canDash = true;
+            dashSprite.SetActive(true);
             return true;
         }
     }
@@ -88,7 +100,7 @@ public class PlayerController : MonoBehaviour
             taps += 1;
         }
 
-        if(dashCounter <= 0){
+        if(dashCounter <= 0 && GroundedCheck()){
             StartCoroutine(JumpWithDelay());
         }
     }
@@ -100,7 +112,6 @@ public class PlayerController : MonoBehaviour
         else{
             taps = 0;
         }
-
     }
 
     private void DashCooldownHandler(){
@@ -123,7 +134,7 @@ public class PlayerController : MonoBehaviour
 
     private void FallingSpeedHandler(){
         if(playerRigidbody.velocity.y < 0){
-            playerRigidbody.gravityScale = 6;
+            playerRigidbody.gravityScale = 8;
         }
         else{
             playerRigidbody.gravityScale = 3;
@@ -132,17 +143,19 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator JumpWithDelay(){
         yield return new WaitForSeconds(jumpDelay);
-        if(GroundedCheck()){
         playerRigidbody.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
+        audioSource.PlayOneShot(jump);
         ChangeColor();
-        }
     }
 
     void Dash(){
-        if(dashCoolCounter <= 0 && dashCounter <= 0){
+        if(dashCoolCounter <= 0 && dashCounter <= 0 && canDash){
             activeMovespeed = dashSpeed;
+            dashSprite.SetActive(false);
             dashCounter = dashLenght;
+            audioSource.PlayOneShot(dash);
             ChangeColor();
+            canDash = false;
         }
     }
 

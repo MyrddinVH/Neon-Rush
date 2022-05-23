@@ -29,9 +29,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private AudioClip jump;
     [SerializeField] private AudioClip dash;
 
+    [Header("max velocity")]
+    [SerializeField] private float maxVelocity;
 
+    [Header("dash particles prefab")]
+    [SerializeField] private GameObject dashParticles;
 
     private Rigidbody2D playerRigidbody;
+    private Animator animator;
     private float timeBetweenTaps = 0.2f;
     private int taps = 0;
     private float activeMovespeed;
@@ -40,16 +45,16 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private float timeTillDeathLocal;
     private AudioSource audioSource;
-    public bool canDash;
-
-
-
+    private bool canDash;
+    private bool isFalling = false;
 
     void Start()
     {
         playerRigidbody = this.GetComponent<Rigidbody2D>();
+        animator = this.GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        dashSprite = GameObject.Find("canDash");
         activeMovespeed = moveSpeed;
         ChangeColor();
     }
@@ -57,8 +62,8 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         playerRigidbody.velocity = new Vector2(activeMovespeed, playerRigidbody.velocity.y);
-        FallingSpeedHandler();
-        RotationReset();
+        // FallingSpeedHandler();
+        // RotationReset();
         DeathTimer();
         if(Input.GetKeyDown("space")){
             JumpOrDashHandler();
@@ -66,13 +71,20 @@ public class PlayerController : MonoBehaviour
 
         DoubleTapCooldownHandler();
         DashCooldownHandler();
-        Debug.DrawLine(this.GetComponent<SpriteRenderer>().bounds.max, transform.position + new Vector3(0.5f, -0.6f, 0), Color.green);
-        Debug.DrawLine(this.GetComponent<SpriteRenderer>().bounds.min, transform.position + new Vector3(-0.5f, -0.6f, 0), Color.green);
+        Debug.DrawRay(this.GetComponent<SpriteRenderer>().bounds.max - new Vector3(1.3f , 0 ,0), -Vector2.up, Color.green);
+    }
+
+    void FixedUpdate()
+    {
+        FallingSpeedHandler();
+        if(!isFalling){
+            playerRigidbody.velocity = new Vector2(playerRigidbody.velocity.x, Vector2.ClampMagnitude(playerRigidbody.velocity, maxVelocity).y);
+        }
     }
 
     private bool GroundedCheck(){
-        RaycastHit2D frontRay = Physics2D.Raycast(this.GetComponent<SpriteRenderer>().bounds.max, -Vector2.up, .6f);
-        RaycastHit2D backRay = Physics2D.Raycast(this.GetComponent<SpriteRenderer>().bounds.min, -Vector2.up, .6f);
+        RaycastHit2D frontRay = Physics2D.Raycast(this.GetComponent<SpriteRenderer>().bounds.max, -Vector2.up, 1.3f);
+        RaycastHit2D backRay = Physics2D.Raycast(this.GetComponent<SpriteRenderer>().bounds.max - new Vector3(1.4f, 0, 0), -Vector2.up, 1.3f);
 
         if(!frontRay.collider && !backRay.collider){
             return false;
@@ -92,14 +104,12 @@ public class PlayerController : MonoBehaviour
 
     private void JumpOrDashHandler(){
         if(timeBetweenTaps > 0 && taps == 1){
-            playerRigidbody.velocity = new Vector2(playerRigidbody.velocity.x, 0);
             Dash();
         }
         else{
             timeBetweenTaps = dashDelay;;
             taps += 1;
         }
-
         if(dashCounter <= 0 && GroundedCheck()){
             StartCoroutine(JumpWithDelay());
         }
@@ -126,7 +136,6 @@ public class PlayerController : MonoBehaviour
                 playerRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
             }
         }
-
         if(dashCoolCounter > 0){
             dashCoolCounter -= Time.deltaTime;
         }
@@ -134,27 +143,32 @@ public class PlayerController : MonoBehaviour
 
     private void FallingSpeedHandler(){
         if(playerRigidbody.velocity.y < 0){
-            playerRigidbody.gravityScale = 8;
+            isFalling = true;
+            playerRigidbody.gravityScale = 10;
         }
         else{
+            isFalling = false;
             playerRigidbody.gravityScale = 3;
         }
     }
 
     IEnumerator JumpWithDelay(){
         yield return new WaitForSeconds(jumpDelay);
-        playerRigidbody.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
+        playerRigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         audioSource.PlayOneShot(jump);
+        animator.Play("rotate");
         ChangeColor();
     }
 
     void Dash(){
         if(dashCoolCounter <= 0 && dashCounter <= 0 && canDash){
+            playerRigidbody.velocity = new Vector2(playerRigidbody.velocity.x, 0);
             activeMovespeed = dashSpeed;
             dashSprite.SetActive(false);
             dashCounter = dashLenght;
             audioSource.PlayOneShot(dash);
             ChangeColor();
+            Instantiate(dashParticles,transform.position,Quaternion.Euler(0,-90,0));
             canDash = false;
         }
     }

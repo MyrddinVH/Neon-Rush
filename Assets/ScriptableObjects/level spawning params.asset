@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: level spawning params
   m_EditorClassIdentifier: 
   minSpawningDistance: 2
-  maxSpawningDistance: 8
+  maxSpawningDistance: 10
   minSpawningHeight: -5
   maxSpawningHeight: 2
   levelparts:

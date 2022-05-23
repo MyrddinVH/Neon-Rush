@@ -24,10 +24,10 @@ public class LevelGenerator : MonoBehaviour
     {
         float distance;
         distance = Vector3.Distance(player.transform.position, transform.position);
-        if(distance < 10 && !hasSpawnedPart){
+        if(distance < 20 && !hasSpawnedPart){
             SpawnNewLevelPart();
         }
-        if(distance > 30 && hasSpawnedPart){
+        if(distance > 50 && hasSpawnedPart){
             Destroy(this.gameObject);
         }
     }

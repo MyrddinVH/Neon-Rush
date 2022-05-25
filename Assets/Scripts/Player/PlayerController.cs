@@ -84,7 +84,7 @@ public class PlayerController : MonoBehaviour
 
     private bool GroundedCheck(){
         RaycastHit2D frontRay = Physics2D.Raycast(this.GetComponent<SpriteRenderer>().bounds.max, -Vector2.up, 1.3f);
-        RaycastHit2D backRay = Physics2D.Raycast(this.GetComponent<SpriteRenderer>().bounds.max - new Vector3(1.4f, 0, 0), -Vector2.up, 1.3f);
+        RaycastHit2D backRay = Physics2D.Raycast(this.GetComponent<SpriteRenderer>().bounds.max - new Vector3(1.9f, 0, 0), -Vector2.up, 1.3f);
 
         if(!frontRay.collider && !backRay.collider){
             return false;

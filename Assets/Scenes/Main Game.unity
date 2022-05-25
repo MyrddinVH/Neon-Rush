@@ -20384,6 +20384,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1128040061}
+    - target: {fileID: 3506542767254330542, guid: c594a480581b67a429e2fcd3c8c5d032, type: 3}
+      propertyPath: m_text
+      value: CONTINUE
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c594a480581b67a429e2fcd3c8c5d032, type: 3}
 --- !u!1001 &4108449682452779193
@@ -20443,7 +20447,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5356403974118068141, guid: 61f0dc96014a580479136b711b9da48d, type: 3}
       propertyPath: dashDelay
-      value: 0.2
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 5356403974118068141, guid: 61f0dc96014a580479136b711b9da48d, type: 3}
       propertyPath: jumpDelay
